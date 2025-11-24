@@ -20,7 +20,7 @@ int connect_to_server(char *addr) {
         return STATUS_ERROR;
     }
 
-    if (connect(sock_fd, (struct sockaddr *) &server, sizeof(server)) == -1) {
+    if (connect(sock_fd, (struct sockaddr *) &server, sizeof(struct sockaddr_in)) == -1) {
         perror("connect");
         close(sock_fd);
         return STATUS_SUCCESS;
