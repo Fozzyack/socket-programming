@@ -5,6 +5,7 @@
 #include <sys/types.h>
 
 #include "server.h"
+#include "common.h"
 
 int start_server(void) {
 
@@ -16,20 +17,34 @@ int start_server(void) {
     int sock_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (sock_fd == -1) {
         perror("socket");
-        return -1;
+        return STATUS_ERROR;
     }
 
     if (bind(sock_fd, (struct sockaddr *)&server, sizeof(struct sockaddr_in)) == -1) {
         perror("bind");
         close(sock_fd);
-        return -1;
+        return STATUS_ERROR;
     }
 
     if (listen(sock_fd, BACKLOG) == -1) {
         perror("listen");
         close(sock_fd);
-        return -1;
+        return STATUS_ERROR;
     }
 
     return sock_fd;
+}
+
+int accept_clients(int sock_fd) {
+    struct sockaddr_in client = {0};
+    socklen_t client_size = sizeof(struct sockaddr_in);
+
+    int client_fd = accept(sock_fd, (struct sockaddr *)&client, &client_size);
+    if (client_fd == -1) {
+        perror("accept");
+        close(sock_fd);
+        return STATUS_ERROR;
+    }
+
+    return client_fd;
 }

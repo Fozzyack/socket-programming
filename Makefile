@@ -5,8 +5,8 @@ OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 default: $(TARGET)
 
 clean:
-	rm -rf bin/*
-	rm -rf obj/*
+	rm -rf bin/*.out
+	rm -rf obj/*.o
 
 $(TARGET): $(OBJ)
 	gcc -o $@ $^ -Iinclude

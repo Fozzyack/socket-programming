@@ -7,5 +7,6 @@
 #define BIND_ADDR 0
 
 int start_server(void);
+int accept_clients(int sock_fd);
 
 #endif // SOCKET_H
