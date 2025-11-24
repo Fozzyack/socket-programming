@@ -1,6 +1,12 @@
 #include <stdio.h>
-
+#include <sys/socket.h>
 int main() {
-    printf("Hello World\n");
+
+    int fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (fd == -1) {
+        perror("socket");
+        return -1;
+    }
+
     return 0;
 }
