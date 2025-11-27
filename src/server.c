@@ -7,6 +7,8 @@
 #include "server.h"
 #include "common.h"
 
+
+
 int start_server(void) {
 
     struct sockaddr_in server = {0};
@@ -47,4 +49,7 @@ int accept_clients(int sock_fd) {
     }
 
     return client_fd;
+}
+
+int handle_client(int sock_fd) {
 }
