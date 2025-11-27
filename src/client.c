@@ -23,10 +23,37 @@ int connect_to_server(char *addr) {
     if (connect(sock_fd, (struct sockaddr *) &server, sizeof(struct sockaddr_in)) == -1) {
         perror("connect");
         close(sock_fd);
-        return STATUS_SUCCESS;
+        return STATUS_ERROR;
     }
 
-    close(sock_fd);
-    return 0;
+    return sock_fd;
+}
 
+int handle_server(int sock_fd) {
+    char buf[BUFFER_SIZE_SERVER] = {0};
+    if(read(sock_fd, buf, sizeof(proto_hdr_t) + sizeof(int)) ==  -1) {
+        perror("read");
+        return STATUS_ERROR;
+    }
+
+    proto_hdr_t *hdr = buf;
+    hdr->type= ntohl(hdr->type);
+    hdr->len = ntohs(hdr->len);
+
+    int *data = (int *)&hdr[1];
+    *data = ntohl(*data);
+
+    if (hdr->type != PROTO_HELLO) {
+        printf("Header type mismatch\n");
+        return STATUS_ERROR;
+    }
+    if (*data != 1) {
+        printf("Header version mismatch\n");
+        return STATUS_ERROR;
+    }
+
+
+    printf("Server Connected Protocol v%d\n", *data);
+
+    return STATUS_SUCCESS;
 }
