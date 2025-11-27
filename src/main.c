@@ -4,7 +4,14 @@
 #include "common.h"
 #include "server.h"
 
+void print_help() {
+    printf("socket_test <addr>\n");
+    printf("\tIf No Arguments are givin it will run as a server on %d\n", PORT);
+    printf("\t<port_number> - If running a client must specify address\n");
+}
+
 int main(int argc, char *argv[]) {
+    print_help();
     if (argc == 1) {
         printf("RUNNING SERVER\n");
         int server_fd = start_server();
