@@ -5,7 +5,7 @@ OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 default: $(TARGET)
 
 clean:
-	rm -rf bin/$(TARGET)
+	rm -rf $(TARGET)
 	rm -rf obj/*.o
 
 $(TARGET): $(OBJ)
