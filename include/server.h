@@ -5,6 +5,7 @@
 #define PORT 5555
 #define BACKLOG 10
 #define BIND_ADDR 0
+#define BUFFER_SIZE_SERVER 4096
 
 typedef enum {
     PROTO_HELLO,

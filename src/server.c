@@ -52,4 +52,15 @@ int accept_clients(int sock_fd) {
 }
 
 int handle_client(int sock_fd) {
+    char buf[BUFFER_SIZE_SERVER] = {0};
+    proto_hdr_t *hdr = buf;
+    hdr->type = htonl(PROTO_HELLO);
+    hdr->len = sizeof(int);
+    int reallen = hdr->len;
+    hdr->len = htons(hdr->len);
+
+    int *data = (int *)&hdr[1];
+    *data = htonl(1);
+    write(sock_fd, hdr, sizeof(proto_hdr_t) + reallen);
+
 }
