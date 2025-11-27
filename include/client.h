@@ -6,5 +6,6 @@
 #define BIND_ADDR 0
 
 int connect_to_server(char *);
+int handle_server(int sock_fd);
 
 #endif // !CLIENT_H

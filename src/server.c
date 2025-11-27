@@ -1,11 +1,11 @@
-#include <unistd.h>
-#include <stdio.h>
 #include <netinet/in.h>
+#include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <unistd.h>
 
-#include "server.h"
 #include "common.h"
+#include "server.h"
 
 int start_server(void) {
 
@@ -47,4 +47,22 @@ int accept_clients(int sock_fd) {
     }
 
     return client_fd;
+}
+
+int handle_client(int sock_fd) {
+    char buf[BUFFER_SIZE_SERVER] = {0};
+    proto_hdr_t *hdr = buf;
+    hdr->type = htonl(PROTO_HELLO);
+    hdr->len = sizeof(int);
+    int reallen = hdr->len;
+    hdr->len = htons(hdr->len);
+
+    int *data = (int *)&hdr[1];
+    *data = htonl(1);
+
+    if (write(sock_fd, hdr, sizeof(proto_hdr_t) + reallen) == -1) {
+        perror("write");
+        return STATUS_ERROR;
+    }
+    return STATUS_SUCCESS;
 }
