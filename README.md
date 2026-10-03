@@ -1,3 +1,4 @@
+# [DEPRECATED] See fundamental-c and http-server repos
 # Socket Programming Practice
 
 A C project for learning and practicing socket programming concepts.
